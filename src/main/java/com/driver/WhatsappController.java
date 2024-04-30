@@ -35,9 +35,8 @@ public class WhatsappController {
     return "SUCCESS";
     }
     private boolean isMobileNumberExists(String mobile) {
-    // Implement logic to check if the mobile number exists in the database
-    // You can use a database query or any other method to perform this check
-    // For demonstration purposes, let's assume a simple check that always returns false
+        
+    
     return false;
 }
 
