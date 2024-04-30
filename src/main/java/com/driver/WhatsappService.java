@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WhatsappService {
-
-    WhatsappRepository whatsappRepository = new WhatsappRepository();
+    
+    @Autowired
+    WhatsappRepository whatsappRepository
 
     public String createUser(String name, String mobile) throws Exception {
         return whatsappRepository.createUser(name, mobile);
