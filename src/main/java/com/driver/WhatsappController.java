@@ -24,11 +24,23 @@ public class WhatsappController {
 
     @PostMapping("/add-user")
     public String createUser(String name, String mobile) throws Exception {
-        //If the mobile number exists in database, throw "User already exists" exception
-        //Otherwise, create the user and return "SUCCESS"
-
-        return whatsappService.createUser(name, mobile);
+        if (isMobileNumberExists(mobile)) {
+            throw new Exception("User already exists");
+        }
+    
+    // If the mobile number doesn't exist, create the user
+    whatsappService.createUser(name, mobile);
+    
+    // Return success message
+    return "SUCCESS";
     }
+    private boolean isMobileNumberExists(String mobile) {
+    // Implement logic to check if the mobile number exists in the database
+    // You can use a database query or any other method to perform this check
+    // For demonstration purposes, let's assume a simple check that always returns false
+    return false;
+}
+
 
     @PostMapping("/add-group")
     public Group createGroup(List<User> users){
