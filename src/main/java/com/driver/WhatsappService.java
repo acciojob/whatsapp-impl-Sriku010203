@@ -12,10 +12,44 @@ public class WhatsappService {
     WhatsappRepository whatsappRepository
 
     public String createUser(String name, String mobile) throws Exception {
+        if (userMobile.contains(mobile)) {
+            throw new Exception("User with this mobile number already exists");
+        }
+        
         return whatsappRepository.createUser(name, mobile);
     }
 
     public Group createGroup(List<User> users){
+        if (users.size() < 2) {
+            throw new IllegalArgumentException("At least two users are required to create a group");
+        }
+
+        // Check if the first user is the admin
+        User admin = users.get(0);
+        if (!admin.isAdmin()) {
+            throw new IllegalArgumentException("First user in the list must be the admin");
+        }
+
+        // Generating  group name based on user count
+        String groupName;
+        if (users.size() == 2) {
+            groupName = users.get(1).getName(); // Personal chat
+        } else {
+            customGroupCount++;
+            groupName = "Group " + customGroupCount;
+        }
+
+        // Creating the group
+        Group group = new Group(groupName, admin);
+        
+        // Adding users to the group
+        groupUserMap.put(group, users);
+        
+        // Setting the admin for the group
+        adminMap.put(group, admin);
+
+        return group;
+    }
         // The list contains at least 2 users where the first user is the admin.
         // If there are only 2 users, the group is a personal chat and the group name should be kept as the name of the second user(other than admin)
         // If there are 2+ users, the name of group should be "Group #count". For example, the name of first group would be "Group 1", second would be "Group 2" and so on.
